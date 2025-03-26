@@ -4,6 +4,7 @@
  */
 package local.graciella.airports.controllers;
 
+import DTO.AirportMinDTO;
 import java.util.List;
 import local.graciella.airports.entities.Airport;
 import local.graciella.airports.service.AirportService;
@@ -56,6 +57,20 @@ public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String c
         // ok devolve 200  
         return ResponseEntity.ok(result);  
     }  
+}
+@GetMapping("/country/{countryName}")
+public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+
+    List<AirportMinDTO> result = airportService.findByCountry(countryName);
+    if (result.isEmpty()) {
+        // Ops.. lista vazia...
+        // notFound devolve 404
+        return ResponseEntity.notFound().build();
+    } else {
+        // Eba! Tem dados!
+        // ok devolve 200
+        return ResponseEntity.ok(result);
+    }
 }
 
 }
