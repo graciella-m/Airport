@@ -4,9 +4,11 @@
  */
 package local.graciella.airports.service;
 
-import DTO.AirportMinDTO;
+import local.graciella.airports.DTO.AirportMinDTO;
 import java.util.List;
+import local.graciella.airports.DTO.AirportNearMeDTO;
 import local.graciella.airports.entities.Airport;
+import local.graciella.airports.projections.AirportNearMeProjection;
 import local.graciella.airports.repositories.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,22 @@ public List<AirportMinDTO> findByCountry(String country) {
      Airport result = airportRepository.findByIataCode(iataCode);
      return result;
  }
+ /**
+ * Retorna DTO AirportNearMe
+ *
+ * @param latitude
+ * @param longitude
+ * @return
+ */
+public List<AirportNearMeDTO> findNearMe(double latitude, double longitude) {
+    List<AirportNearMeProjection> resultNearAirports = airportRepository.findNearMe(latitude, longitude);
+
+    List<AirportNearMeDTO> resultDTO = resultNearAirports.stream()
+        .map(x -> new AirportNearMeDTO(x)).toList();
+
+    return resultDTO;
+}
+
 
 }
     
